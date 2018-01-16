@@ -1,0 +1,31 @@
+{
+  "config": {
+    "js": {
+      "regex": "js"
+    },
+    "css": {
+      "regex": "css"
+    },
+    "prettyPrint": true,
+    "configFilename": "assets.json",
+    "cwd": "."
+  },
+  "pages": {
+    "app": {
+      "name": "app.js",
+      "path": "tests2/template.html",
+      "assets": {
+        "js": {
+          "path": "",
+          "regex": "myjs",
+          "name": ""
+        },
+        "css": {
+          "path": "",
+          "regex": "mycss",
+          "name": ""
+        }
+      }
+    }
+  }
+}

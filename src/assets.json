@@ -1,0 +1,27 @@
+{
+  "meta": {
+    "js": {
+      "regex": "js"
+    },
+    "css": {
+      "regex": "css"
+    },
+    "prettyPrint": true,
+    "pathFromRoot": "./config/assets.json"
+  },
+  "pages": {
+    "sample": {
+      "sourcePaths": [],
+      "assets": {
+        "js": {
+          "sourcePaths": [],
+          "regex": "myjs"
+        },
+        "css": {
+          "sourcePaths": [],
+          "regex": "mycss"
+        }
+      }
+    }
+  }
+}

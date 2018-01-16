@@ -1,0 +1,35 @@
+{
+  "defaults": {
+    "js": {
+      "regex": "js"
+    },
+    "css": {
+      "regex": "css"
+    },
+    "prettyPrint": true,
+    "pathFromRoot": "./config/assets.json"
+  },
+  "config": {
+    "myApp": {
+      "webpackEntry": "myApp",
+      "target": [
+          "./tests/template.html",
+          "./tests2/template.html"
+      ],
+      "assets": {
+        "js": {
+          "sourcePaths": [
+            "myApp-3c175a36bc1302859163.js"
+          ],
+          "regex": "myjs"
+        },
+        "css": {
+          "sourcePaths": [
+            "myApp-3c175a36bc1302859163.css"
+          ],
+          "regex": "mycss"
+        }
+      }
+    }
+  }
+}

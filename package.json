@@ -1,0 +1,32 @@
+{
+  "name": "assets-webpack-rzn1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/tape tests/index.test.js",
+    "build": "./node_modules/.bin/webpack --config ./tests/webpack.config.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "css-loader": "^0.23.1",
+    "extract-text-webpack-plugin": "^2.0.0-rc.3",
+    "style-loader": "^0.13.1",
+    "tape": "^4.8.0",
+    "webpack": "^3.10.0"
+  },
+  "dependencies": {
+    "args": "^3.0.8",
+    "chalk": "^2.3.0",
+    "json-format": "^1.0.1",
+    "prompt": "^1.0.0",
+    "ramda": "^0.25.0",
+    "replace": "^0.3.0"
+  },
+  "bin": {
+    "assets-webpack": "cli.js"
+  }
+}
