@@ -1,3 +1,11 @@
+'use strict';
+
+var _stringify = require('babel-runtime/core-js/json/stringify');
+
+var _stringify2 = _interopRequireDefault(_stringify);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 const constants = require('./constants');
 const replace = require("replace");
 const path = require('path');
@@ -5,30 +13,30 @@ const R = require('ramda');
 const chalk = require('chalk');
 const fs = require('fs');
 
-const isJS = (type) => {
+const isJS = type => {
     return type === constants.JS || type === constants.JSX;
 };
 
-const isCSS = (type) => {
+const isCSS = type => {
     return type === constants.CSS;
 };
 
-const outputConfig = (config) => {
+const outputConfig = config => {
     if (config.defaults.prettyPrint) {
-        return JSON.stringify(config, null, '  ');
+        return (0, _stringify2.default)(config, null, '  ');
     } else {
-        return JSON.stringify(config);
+        return (0, _stringify2.default)(config);
     }
 };
-const isJSFile = (filename) => {
+const isJSFile = filename => {
     const ext = path.extname(filename);
     return ext === `.${constants.JS}` || ext === `.${constants.JSX}`;
 };
 
-const isCssFile = (filename) => {
+const isCssFile = filename => {
     const ext = path.extname(filename);
     return ext === `.${constants.CSS}`;
-}
+};
 
 const getConfigFile = (configFilePath = constants.DEFAULT_CONFIG_PATH) => {
     const config = fs.readFileSync(configFilePath, { encoding: 'utf8' });
@@ -37,9 +45,9 @@ const getConfigFile = (configFilePath = constants.DEFAULT_CONFIG_PATH) => {
 
 const writeConfigFile = (config, path) => {
     fs.writeFileSync(path, outputConfig(config));
-}
+};
 
-const validateConfig = (config) => {
+const validateConfig = config => {
     if (R.isNil(config) || R.isEmpty(config)) {
         throw new Error('Invalid Config');
     }
@@ -49,22 +57,22 @@ const logError = (msg, error) => {
     console.error(chalk.red(msg, error));
 };
 
-const logInfo = (msg) => {
+const logInfo = msg => {
     console.log(chalk.blue(msg));
-}
+};
 
-const formatTag = (tag) => `\t${tag}\n\t`;
+const formatTag = tag => `${tag}\n\t`;
 
-const getScriptTag = (filename) => `<script src="${filename}"></script>`;
+const getScriptTag = filename => `<script src="${filename}"></script>`;
 
-const getLinkTag = (filename) => `<link rel="stylesheet" href="${filename}">`;
+const getLinkTag = filename => `<link rel="stylesheet" href="${filename}">`;
 
 const getReplacement = (replacement, regex) => `<!-- /${regex}/ -->${replacement}<!-- /end-of-${regex}-inject/ -->`;
 
-const getRegexForReplace = (customRegex) => `<!-- /${customRegex}/ -->[\\s\\S]*<!-- /end-of-${customRegex}-inject/ -->`;
+const getRegexForReplace = customRegex => `<!-- /${customRegex}/ -->[\\s\\S]*<!-- /end-of-${customRegex}-inject/ -->`;
 
 const injectAsset = (regex, replacement, targetPath) => {
-    console.log('injectAsset ', regex, replacement, targetPath)
+    console.log('injectAsset ', regex, replacement, targetPath);
     const finalRegex = getRegexForReplace(regex);
     const finalReplacement = getReplacement(replacement, regex);
     console.log('>> final ', finalRegex);
@@ -74,9 +82,8 @@ const injectAsset = (regex, replacement, targetPath) => {
         replacement: finalReplacement,
         paths: targetPath,
         recursive: false,
-        silent: true,
+        silent: true
     });
-
 };
 
 const buildAssetFilesString = (assetFiles, type) => {
@@ -84,15 +91,14 @@ const buildAssetFilesString = (assetFiles, type) => {
     let content = '\n\t';
     const tagFn = isJS(type) ? getScriptTag : getLinkTag;
 
-    assetFiles.forEach((asset) => {
+    assetFiles.forEach(asset => {
         content += formatTag(tagFn(asset));
     });
 
     return content;
 };
 
-
-const getFileType = (filename) => {
+const getFileType = filename => {
 
     const isJSType = isJSFile(filename);
     const isCSSType = isCssFile(filename);
@@ -102,7 +108,6 @@ const getFileType = (filename) => {
     } else if (isCSSType) {
         return constants.CSS;
     }
-
 };
 
 module.exports = {

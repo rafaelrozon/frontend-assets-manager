@@ -1,24 +1,34 @@
 {
-  "meta": {
+  "defaults": {
     "js": {
-      "regex": "js"
+      "regex": "js",
+      "prepend": "dist/app/"
     },
     "css": {
-      "regex": "css"
+      "regex": "css",
+      "prepend": "dist/app/"
     },
     "prettyPrint": true,
-    "pathFromRoot": "./config/assets.json"
+    "pathFromRoot": "./src/assets.json"
   },
-  "pages": {
-    "sample": {
-      "sourcePaths": [],
+  "config": {
+    "myApp": {
+      "webpackEntry": "myApp",
+      "target": [
+        "./tests/template.html",
+        "./tests2/template.html"
+      ],
       "assets": {
         "js": {
-          "sourcePaths": [],
+          "sourcePaths": [
+            "dist/app/myApp-38ee7de36e7d8f3f0b97.js"
+          ],
           "regex": "myjs"
         },
         "css": {
-          "sourcePaths": [],
+          "sourcePaths": [
+            "myApp-3c175a36bc1302859163.css"
+          ],
           "regex": "mycss"
         }
       }

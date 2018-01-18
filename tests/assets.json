@@ -7,7 +7,7 @@
       "regex": "css"
     },
     "prettyPrint": true,
-    "pathFromRoot": "./config/assets.json"
+    "pathFromRoot": "./src/assets.json"
   },
   "config": {
     "configSetOne": {

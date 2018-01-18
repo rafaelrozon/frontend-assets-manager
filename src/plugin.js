@@ -1,10 +1,10 @@
 const fs = require('fs');
 const path = require('path');
-const constants = require('./src/constants');
-const utils = require('./src/utils');
+const constants = require('./constants');
+const utils = require('./utils');
 const R = require('ramda');
 const chalk = require('chalk');
-const ConfigClass = require('./src/config');
+const ConfigClass = require('./config');
 
 function HelloWorldPlugin(options) {
     this.opts = options;
@@ -37,7 +37,7 @@ HelloWorldPlugin.prototype.apply = function (compiler) {
         compiler.plugin("emit", function (compilation, callback) {
 
             compilation.chunks.forEach(function (chunk) {
-                console.log('chunk ', chunk.name);
+                console.log('chunk ', chunk);
                 chunk.files.forEach(function (filename) {
 
                     const webpackEntry = chunk.name;

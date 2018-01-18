@@ -1,28 +1,26 @@
 #! /usr/bin/env node
-const testdata = require('./tests/testdata.json');
+'use strict';
+
 const replace = require("replace");
 const path = require('path');
 const R = require('ramda');
 const chalk = require('chalk');
-const constants = require('./src/constants');
-const utils = require('./src/utils');
+const constants = require('./constants');
+const utils = require('./utils');
 const args = require('args');
 const fs = require('fs');
-const ConfigClass = require('./src/config');
+const ConfigClass = require('./config');
 
 const getCliOptions = () => {
 
-    args.options([
-        {
-            name: 'config',
-            description: 'Path to the config file',
-            defaultValue: './assets.json'
-          }
-    ]);
+    args.options([{
+        name: 'config',
+        description: 'Path to the config file',
+        defaultValue: './assets.json'
+    }]);
 
     return args.parse(process.argv);
 };
-
 
 const handlePageAssets = (configSet, cc) => {
     handleAsset(configSet, constants.JS, cc);
@@ -36,14 +34,13 @@ const handleAsset = (configSet, type, cc) => {
 
     if (sourcePaths && !R.isEmpty(sourcePaths)) {
 
-        const regex = cc.getRegexForAsset(configSet, type)
+        const regex = cc.getRegexForAsset(configSet, type);
 
         const replacement = utils.buildAssetFilesString(sourcePaths, type);
 
         const targetPath = cc.getConfigSetTarget(configSet);
 
         utils.injectAsset(regex, replacement, targetPath);
-
     }
 };
 
@@ -62,14 +59,12 @@ const run = () => {
 
         const consfigSets = R.keys(cc.getConfig());
 
-        consfigSets.forEach((configSet) => handlePageAssets(configSet, cc));
+        consfigSets.forEach(configSet => handlePageAssets(configSet, cc));
 
         utils.logInfo('Done!');
-
     } catch (error) {
         utils.logError('There was an error: ', error);
     }
-
 };
 
 run();

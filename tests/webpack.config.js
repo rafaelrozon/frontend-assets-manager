@@ -1,5 +1,6 @@
-var HelloWorldPlugin = require('./../plugin');
+var HelloWorldPlugin = require('./../src/plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const path = require('path');
 
 
 module.exports = {
@@ -8,11 +9,14 @@ module.exports = {
     },
     devtool: 'source-map',
     output: {
-      filename: '[name]-[hash].js'
+      filename: '[name]-[hash].js',
+      path: path.resolve(__dirname, './../dist/app'),
+      publicPath: ''
+
     },
     plugins: [
         new HelloWorldPlugin({
-            config: "./config/assets.json"
+            config: "./src/assets.json"
         }),
         new ExtractTextPlugin("[name]-[hash].css")
     ],

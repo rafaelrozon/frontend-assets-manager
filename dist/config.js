@@ -1,3 +1,5 @@
+'use strict';
+
 const R = require('ramda');
 const constants = require('./constants');
 const utils = require('./utils');
@@ -72,15 +74,15 @@ class Config {
     getRegexForAsset(set, type) {
         const assetConfig = this.getConsigSetAssets(set);
         const assetRegex = assetConfig[type].regex;
-        return assetRegex && !R.isEmpty(assetRegex) ? assetRegex : this.getDefaultRegexForType(type)
+        return assetRegex && !R.isEmpty(assetRegex) ? assetRegex : this.getDefaultRegexForType(type);
     }
 
     getConfigSetForWebpackEntry(webpackEntry) {
 
         const config = this.getConfig();
-        const found = R.keys(config).filter((configSet) => {
+        const found = R.keys(config).filter(configSet => {
             return config[configSet].webpackEntry === webpackEntry;
-        })
+        });
 
         return found[0];
     }
@@ -95,11 +97,11 @@ class Config {
             const configSet = this.getConfigSetForWebpackEntry(webpackEntry);
 
             if (R.keys(this.config) === 0 || !configSet) {
-                console.log('init configSet', configSet)
+                console.log('init configSet', configSet);
                 this.createConfigSet(webpackEntry);
             }
-            console.log('>>> config is ', this.config, configSet);
-            this.config[webpackEntry].assets[type].sourcePaths = [this.processFilename(filename, type, configSet)];
+            console.log('>>> config is ', this.config);
+            this.config[webpackEntry].assets[type].sourcePaths = [filename];
             console.log('>>> config is after update', this.config);
         }
     }
@@ -113,21 +115,6 @@ class Config {
 
     getPathFromRoot() {
         return this.defaults.pathFromRoot;
-    }
-
-    processFilename(filename, type, configSet) {
-        console.log('>>>>', filename, type, configSet)
-        let finalFilename = filename;
-
-        if (this.defaults[type].prepend) {
-            finalFilename = `${this.defaults[type].prepend}${filename}`;
-        }
-
-        if (this.config[configSet].assets[type].prepend) {
-            finalFilename = `${this.config[configSet].assets[type].prepend}${filename}`;
-        }
-
-        return finalFilename;
     }
 
     getAssetConfigDefaults(set) {
@@ -144,7 +131,7 @@ class Config {
                     [constants.KEYS.REGEX]: ''
                 }
             }
-        }
+        };
     }
 
     createConfigSet(set) {
@@ -152,6 +139,5 @@ class Config {
     }
 
 };
-
 
 module.exports = Config;

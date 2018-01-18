@@ -1,16 +1,38 @@
 {
-  "name": "assets-webpack-rzn1",
+  "name": "frontend-assets-manager",
   "version": "1.0.0",
-  "description": "",
+  "description": "Frontend assets management done right",
   "main": "./dist/index.js",
+  "author": "Rafael Rozon",
+  "license": "MIT",
   "scripts": {
     "test": "./node_modules/.bin/tape tests/index.test.js",
-    "build": "./node_modules/.bin/webpack --config ./tests/webpack.config.js"
+    "ww": "./node_modules/.bin/webpack --config ./tests/webpack.config.js",
+    "build": "rm -rf dist; node_modules/.bin/babel --plugins \"transform-runtime\" ./src --out-dir ./dist",
+    "build-config": "node src/build_config.js"
   },
-  "author": "",
-  "license": "ISC",
+  "bin": {
+    "fam": "./src/cli.js",
+    "fam-build-config": "./src/build_config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rafaelrozon/frontend-assets-manager"
+  },
+  "keywords": [
+    "frontend",
+    "assets",
+    "manager",
+    "webpack",
+    "plugin",
+    "inject",
+    "console",
+    "dev",
+    "tool"
+  ],
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.6.1",
     "css-loader": "^0.23.1",
     "extract-text-webpack-plugin": "^2.0.0-rc.3",
@@ -20,13 +42,11 @@
   },
   "dependencies": {
     "args": "^3.0.8",
+    "babel-runtime": "^6.26.0",
     "chalk": "^2.3.0",
     "json-format": "^1.0.1",
     "prompt": "^1.0.0",
     "ramda": "^0.25.0",
     "replace": "^0.3.0"
-  },
-  "bin": {
-    "assets-webpack": "cli.js"
   }
 }
