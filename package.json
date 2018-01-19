@@ -2,14 +2,15 @@
   "name": "frontend-assets-manager",
   "version": "1.0.0",
   "description": "Frontend assets management done right",
-  "main": "./dist/index.js",
+  "main": "./src/index.js",
   "author": "Rafael Rozon",
   "license": "MIT",
   "scripts": {
     "test": "./node_modules/.bin/tape tests/index.test.js",
     "ww": "./node_modules/.bin/webpack --config ./tests/webpack.config.js",
     "build": "rm -rf dist; node_modules/.bin/babel --plugins \"transform-runtime\" ./src --out-dir ./dist",
-    "build-config": "node src/build_config.js"
+    "build-config": "node src/build_config.js",
+    "cli": "node src/cli.js -c src/assets.json"
   },
   "bin": {
     "fam": "./src/cli.js",

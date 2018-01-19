@@ -100,7 +100,7 @@ class Config {
             }
             console.log('>>> config is ', this.config, configSet);
             this.config[webpackEntry].assets[type].sourcePaths = [this.processFilename(filename, type, configSet)];
-            console.log('>>> config is after update', this.config);
+            console.log('>>> config is after update', JSON.stringify(this.config));
         }
     }
 
@@ -116,11 +116,15 @@ class Config {
     }
 
     processFilename(filename, type, configSet) {
-        console.log('>>>>', filename, type, configSet)
+        console.log('>>>> processFilename', filename, type, configSet, this.config[configSet])
         let finalFilename = filename;
 
         if (this.defaults[type].prepend) {
             finalFilename = `${this.defaults[type].prepend}${filename}`;
+        }
+
+        if (this.config[configSet].prepend) {
+            finalFilename = `${this.config[configSet].prepend}${filename}`;
         }
 
         if (this.config[configSet].assets[type].prepend) {
@@ -143,6 +147,23 @@ class Config {
                     [constants.KEYS.PATH]: [],
                     [constants.KEYS.REGEX]: ''
                 }
+            }
+        }
+    }
+
+    getConfigDefaults() {
+        return {
+            [constants.KEYS.META]: {
+                [constants.KEYS.JS]: {
+                    [constants.KEYS.REGEX]: constants.KEYS.JS,
+                    [constants.KEYS.PREPEND]: ""
+                  },
+                  [constants.KEYS.CSS]: {
+                    [constants.KEYS.REGEX]: constants.KEYS.CSS,
+                    [constants.KEYS.PREPEND]: ""
+                  },
+                  [constants.KEYS.PRETTY_PRINT]: true,
+                  [constants.KEYS.PATH_FROM_ROOT]: "./assets.json"
             }
         }
     }

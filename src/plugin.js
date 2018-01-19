@@ -6,31 +6,17 @@ const R = require('ramda');
 const chalk = require('chalk');
 const ConfigClass = require('./config');
 
-function HelloWorldPlugin(options) {
+function FAMPlugin(options) {
     this.opts = options;
 }
 
-const updatePageAssets = (webpackEntry, filename, cc) => {
-    console.log('>>>> updatePageAssets >>>>', webpackEntry, filename);
-    const configCopy = R.clone(config);
-
-    if (utils.isJSFile(filename)) {
-        configCopy.pages[webpackEntry].assets.js.path = [filename];
-    } else if (utils.isCssFile(filename)) {
-        configCopy.pages[webpackEntry].assets.css.path = [filename];
-    }
-
-    return configCopy;
-};
-
-HelloWorldPlugin.prototype.apply = function (compiler) {
+FAMPlugin.prototype.apply = function (compiler) {
 
     try {
         console.log('>>>>>>>>>>>>>>', this.opts);
         let config = utils.getConfigFile(this.opts.config);
 
         const cc = new ConfigClass(config);
-
 
         console.log('config is ', config);
 
@@ -43,7 +29,6 @@ HelloWorldPlugin.prototype.apply = function (compiler) {
                     const webpackEntry = chunk.name;
                     console.log('filename is ', filename);
                     config = cc.setConfigSetAssets(webpackEntry, filename);
-                    //updatePageAssets(webpackEntry, filename, cc);
 
                 });
             });
@@ -60,4 +45,4 @@ HelloWorldPlugin.prototype.apply = function (compiler) {
     }
 };
 
-module.exports = HelloWorldPlugin;
+module.exports = FAMPlugin;

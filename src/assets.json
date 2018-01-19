@@ -23,7 +23,8 @@
           "sourcePaths": [
             "dist/app/myApp-38ee7de36e7d8f3f0b97.js"
           ],
-          "regex": "myjs"
+          "regex": "myjs",
+          "prepend": "dist/app/"
         },
         "css": {
           "sourcePaths": [

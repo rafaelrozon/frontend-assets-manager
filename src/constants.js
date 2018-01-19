@@ -15,6 +15,7 @@ module.exports = {
         PATH: 'sourcePaths',
         ASSETS: 'assets',
         WEBPACKENTRY: 'webpackEntry',
-        TARGET: 'target'
+        TARGET: 'target',
+        PREPEND: 'prepend'
     }
 };

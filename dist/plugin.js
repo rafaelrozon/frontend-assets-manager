@@ -38,7 +38,7 @@ HelloWorldPlugin.prototype.apply = function (compiler) {
         compiler.plugin("emit", function (compilation, callback) {
 
             compilation.chunks.forEach(function (chunk) {
-                console.log('chunk ', chunk.name);
+                console.log('chunk ', chunk);
                 chunk.files.forEach(function (filename) {
 
                     const webpackEntry = chunk.name;

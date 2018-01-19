@@ -100,8 +100,8 @@ class Config {
                 console.log('init configSet', configSet);
                 this.createConfigSet(webpackEntry);
             }
-            console.log('>>> config is ', this.config);
-            this.config[webpackEntry].assets[type].sourcePaths = [filename];
+            console.log('>>> config is ', this.config, configSet);
+            this.config[webpackEntry].assets[type].sourcePaths = [this.processFilename(filename, type, configSet)];
             console.log('>>> config is after update', this.config);
         }
     }
@@ -115,6 +115,21 @@ class Config {
 
     getPathFromRoot() {
         return this.defaults.pathFromRoot;
+    }
+
+    processFilename(filename, type, configSet) {
+        console.log('>>>>', filename, type, configSet);
+        let finalFilename = filename;
+
+        if (this.defaults[type].prepend) {
+            finalFilename = `${this.defaults[type].prepend}${filename}`;
+        }
+
+        if (this.config[configSet].assets[type].prepend) {
+            finalFilename = `${this.config[configSet].assets[type].prepend}${filename}`;
+        }
+
+        return finalFilename;
     }
 
     getAssetConfigDefaults(set) {

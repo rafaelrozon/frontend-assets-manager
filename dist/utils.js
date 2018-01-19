@@ -61,7 +61,7 @@ const logInfo = msg => {
     console.log(chalk.blue(msg));
 };
 
-const formatTag = tag => `${tag}\n\t`;
+const formatTag = tag => `\t${tag}\n\t`;
 
 const getScriptTag = filename => `<script src="${filename}"></script>`;
 

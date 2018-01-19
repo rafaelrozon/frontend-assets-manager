@@ -67,8 +67,7 @@ const injectAsset = (regex, replacement, targetPath) => {
     console.log('injectAsset ', regex, replacement, targetPath)
     const finalRegex = getRegexForReplace(regex);
     const finalReplacement = getReplacement(replacement, regex);
-    console.log('>> final ', finalRegex);
-    console.log('>> final ', finalReplacement);
+
     replace({
         regex: finalRegex,
         replacement: finalReplacement,
