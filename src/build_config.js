@@ -12,24 +12,28 @@ const buildAssetsFile = () => {
         [K.META]: {
             [K.JS]: {
                 [K.REGEX]: "js",
+                [K.PREPEND]: ""
             },
             [K.CSS]: {
                 [K.REGEX]: "css",
+                [K.PREPEND]: ""
             },
             [K.PRETTY_PRINT]: true,
             [K.PATH_FROM_ROOT]: "./assets.json",
         },
         [K.PAGES]: {
             "sample": {
-                [K.PATH]: [],
+                [K.TARGET]: [],
                 [K.ASSETS]: {
                     [K.JS]: {
                         [K.PATH]: [],
                         [K.REGEX]: "myjs",
+                        [K.PREPEND]: ""
                     },
                     [K.CSS]: {
                         [K.PATH]: [],
-                        [K.REGEX]: "mycss"
+                        [K.REGEX]: "mycss",
+                        [K.PREPEND]: ""
                     }
                 }
             }

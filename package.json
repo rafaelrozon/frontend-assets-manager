@@ -6,7 +6,7 @@
   "author": "Rafael Rozon",
   "license": "MIT",
   "scripts": {
-    "test": "./node_modules/.bin/tape tests/index.test.js",
+    "test": "./node_modules/.bin/nyc --reporter=lcov ./node_modules/.bin/tape tests/index.test.js --watch",
     "ww": "./node_modules/.bin/webpack --config ./tests/webpack.config.js",
     "build": "rm -rf dist; node_modules/.bin/babel --plugins \"transform-runtime\" ./src --out-dir ./dist",
     "build-config": "node src/build_config.js",
@@ -37,6 +37,7 @@
     "babel-preset-env": "^1.6.1",
     "css-loader": "^0.23.1",
     "extract-text-webpack-plugin": "^2.0.0-rc.3",
+    "nyc": "^11.4.1",
     "style-loader": "^0.13.1",
     "tape": "^4.8.0",
     "webpack": "^3.10.0"

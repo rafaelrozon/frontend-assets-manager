@@ -69,11 +69,29 @@
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-throw new Error("Cannot find module \"./testcss.css\"");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_css__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__app_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__app_css__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app2__ = __webpack_require__(2);
+
 
 // sadfsadf
 //sdfsdf
 
+/***/ }),
+/* 1 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony default export */ var _unused_webpack_default_export = ({
+    a: 1
+});
+
 /***/ })
 /******/ ]);
-//# sourceMappingURL=myApp-ae7cf11739bd8f81269b.js.map
+//# sourceMappingURL=myApp-7da312ce1c35525dc3e0.js.map

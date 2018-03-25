@@ -1,3 +1,4 @@
-import css from './testcss.css';
+import css from './app.css';
+import d from './app2';
 // sadfsadf
 //sdfsdf

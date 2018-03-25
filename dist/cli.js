@@ -29,7 +29,7 @@ const handlePageAssets = (configSet, cc) => {
 
 const handleAsset = (configSet, type, cc) => {
     console.log('handleAsset', configSet, type);
-    const sourcePaths = cc.getSourcePathsForType(configSet, type);
+    const sourcePaths = cc.getAssetSrc(configSet, type);
     console.log('sourcePaths ', sourcePaths);
 
     if (sourcePaths && !R.isEmpty(sourcePaths)) {

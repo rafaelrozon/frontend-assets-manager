@@ -2,8 +2,22 @@ const R = require('ramda');
 const constants = require('./constants');
 const utils = require('./utils');
 
+const K = constants.KEYS;
+
 class Config {
 
+    /**
+     * This is the content of the assets.json file
+     * data: {
+     *      defaults: {
+     *
+     *      },
+     *      config: {
+     *
+     *      }
+     * }
+     * @param {object} data
+     */
     constructor(data) {
         this.defaults = data.defaults;
         this.config = data.config;
@@ -17,31 +31,40 @@ class Config {
         return this.defaults;
     }
 
+    getJSDefaults() {
+        return this.getDefaults()[K.JS];
+    }
+
     getDefaultJSRegex() {
-        return this.defaults.js.regex;
+        return this.getJSDefaults()[K.REGEX];
     }
 
     getConfigSet(set) {
         return this.getConfig()[set];
     }
 
+    /**
+     * Get the target file that will receive the assets
+     * @param {string} set
+     */
     getConfigSetTarget(set) {
-        return this.getConfigSet(set).target;
+        return this.getConfigSet(set)[K.TARGET];
     }
 
     getConsigSetAssets(set) {
-        return this.getConfigSet(set).assets;
+        console.log('getConsigSetAssets', set);
+        return this.getConfigSet(set)[K.ASSETS];
     }
 
     getConfigSetJS(set) {
-        return this.getConsigSetAssets(set).js;
+        return this.getConsigSetAssets(set)[K.JS];
     }
 
     getConfigSetCSS(set) {
-        return this.getConsigSetAssets(set).css;
+        return this.getConsigSetAssets(set)[K.CSS];
     }
 
-    getSourcePathsForType(set, type) {
+    getAssetSrc(set, type) {
         if (utils.isJS(type)) {
             return this.getJSSourcePaths(set);
         } else if (utils.isCSS(type)) {
@@ -49,59 +72,63 @@ class Config {
         }
     }
 
+    /**
+     * Get the source files for the specified type and prepend a string if specified
+     * @param {string} set  configSet entry
+     * @param {string} type js or css
+     */
+    processSrcPaths(set, type) {
+
+        const sourceFiles = this.getConsigSetAssets(set)[type][K.PATH];
+        const that = this;
+        const files = sourceFiles.map(file => that.processFilename(file, type, set));
+
+        return files;
+    }
+
     getJSSourcePaths(set) {
-        return this.getConfigSetJS(set).sourcePaths;
+        return this.processSrcPaths(set, constants.JS);
     }
 
-    getJSRegex(set) {
-        return this.getConfigSetJS(set).regex;
-    }
-
-    getCSSSourcePaths(set) {
-        return this.getConfigSetCSS(set).sourcePaths;
-    }
-
-    getCSSRegex(set) {
-        return this.getConfigSetCSS(set).regex;
+     getCSSSourcePaths(set) {
+        return this.processSrcPaths(set, constants.CSS);
     }
 
     getDefaultRegexForType(type) {
-        return this.getDefaults()[type].regex;
+        return this.getDefaults()[type][K.REGEX];
     }
 
+    /**
+     * Get the regex for the type specified in the config set, if not present use the defaults
+     * @param {*} set
+     * @param {*} type
+     */
     getRegexForAsset(set, type) {
         const assetConfig = this.getConsigSetAssets(set);
-        const assetRegex = assetConfig[type].regex;
+        const assetRegex = assetConfig[type][K.REGEX];
         return assetRegex && !R.isEmpty(assetRegex) ? assetRegex : this.getDefaultRegexForType(type)
     }
 
-    getConfigSetForWebpackEntry(webpackEntry) {
-
-        const config = this.getConfig();
-        const found = R.keys(config).filter((configSet) => {
-            return config[configSet].webpackEntry === webpackEntry;
-        })
-
-        return found[0];
-    }
-
-    setConfigSetAssets(webpackEntry, filename) {
-        console.log('setConfigAssets ', webpackEntry, filename);
+    setConfigSetAssets(entry, filename) {
 
         const type = utils.getFileType(filename);
-        console.log('>> type ', type);
+
+        // only handle js or css files
         if (utils.isJS(type) || utils.isCSS(type)) {
 
-            const configSet = this.getConfigSetForWebpackEntry(webpackEntry);
+            const configSet = this.getConfigSet(entry);
 
+            // if the config set does not exist yet, create a new one
             if (R.keys(this.config) === 0 || !configSet) {
-                console.log('init configSet', configSet)
-                this.createConfigSet(webpackEntry);
+                this.createConfigSet(entry);
             }
-            console.log('>>> config is ', this.config, configSet);
-            this.config[webpackEntry].assets[type].sourcePaths = [this.processFilename(filename, type, configSet)];
-            console.log('>>> config is after update', JSON.stringify(this.config));
+
+            // add the file name to the config set
+            this.config[entry][K.ASSETS][type][K.PATH] = [filename];
+
         }
+
+        return this.config;
     }
 
     getContents() {
@@ -112,23 +139,23 @@ class Config {
     }
 
     getPathFromRoot() {
-        return this.defaults.pathFromRoot;
+        return this.defaults[K.PATH_FROM_ROOT];
     }
 
-    processFilename(filename, type, configSet) {
-        console.log('>>>> processFilename', filename, type, configSet, this.config[configSet])
+    processFilename(filename, type, webpackEntry) {
+
         let finalFilename = filename;
 
-        if (this.defaults[type].prepend) {
-            finalFilename = `${this.defaults[type].prepend}${filename}`;
+        if (this.defaults[type][K.PREPEND]) {
+            finalFilename = `${this.defaults[type][K.PREPEND]}${filename}`;
         }
 
-        if (this.config[configSet].prepend) {
-            finalFilename = `${this.config[configSet].prepend}${filename}`;
+        if (this.config[webpackEntry][K.PREPEND]) {
+            finalFilename = `${this.config[webpackEntry][K.PREPEND]}${filename}`;
         }
 
-        if (this.config[configSet].assets[type].prepend) {
-            finalFilename = `${this.config[configSet].assets[type].prepend}${filename}`;
+        if (this.config[webpackEntry][K.ASSETS][type][K.PREPEND]) {
+            finalFilename = `${this.config[webpackEntry][K.ASSETS][type][K.PREPEND]}${filename}`;
         }
 
         return finalFilename;
@@ -136,34 +163,17 @@ class Config {
 
     getAssetConfigDefaults(set) {
         return {
-            [constants.KEYS.WEBPACKENTRY]: set,
-            [constants.KEYS.TARGET]: [],
-            [constants.KEYS.ASSETS]: {
-                [constants.KEYS.JS]: {
-                    [constants.KEYS.PATH]: [],
-                    [constants.KEYS.REGEX]: ""
+            [K.WEBPACKENTRY]: set,
+            [K.TARGET]: [],
+            [K.ASSETS]: {
+                [K.JS]: {
+                    [K.PATH]: [],
+                    [K.REGEX]: "",
                 },
-                [constants.KEYS.CSS]: {
-                    [constants.KEYS.PATH]: [],
-                    [constants.KEYS.REGEX]: ''
+                [K.CSS]: {
+                    [K.PATH]: [],
+                    [K.REGEX]: ''
                 }
-            }
-        }
-    }
-
-    getConfigDefaults() {
-        return {
-            [constants.KEYS.META]: {
-                [constants.KEYS.JS]: {
-                    [constants.KEYS.REGEX]: constants.KEYS.JS,
-                    [constants.KEYS.PREPEND]: ""
-                  },
-                  [constants.KEYS.CSS]: {
-                    [constants.KEYS.REGEX]: constants.KEYS.CSS,
-                    [constants.KEYS.PREPEND]: ""
-                  },
-                  [constants.KEYS.PRETTY_PRINT]: true,
-                  [constants.KEYS.PATH_FROM_ROOT]: "./assets.json"
             }
         }
     }

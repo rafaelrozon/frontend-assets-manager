@@ -43,7 +43,7 @@ class Config {
         return this.getConsigSetAssets(set).css;
     }
 
-    getSourcePathsForType(set, type) {
+    getAssetSrc(set, type) {
         if (utils.isJS(type)) {
             return this.getJSSourcePaths(set);
         } else if (utils.isCSS(type)) {

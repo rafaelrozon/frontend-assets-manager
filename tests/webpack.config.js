@@ -1,4 +1,4 @@
-var HelloWorldPlugin = require('./../src/plugin');
+var FAMPlugin = require('./../src/plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const path = require('path');
 
@@ -15,7 +15,7 @@ module.exports = {
 
     },
     plugins: [
-        new HelloWorldPlugin({
+        new FAMPlugin({
             config: "./src/assets.json"
         }),
         new ExtractTextPlugin("[name]-[hash].css")
