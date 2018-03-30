@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "test": "./node_modules/.bin/tape tests/index.test.js",
-    "cover": "./node_modules/.bin/tap tests/index.test.js --cov --coverage-report=lcov",
+    "cover": "nyc report --reporter=text-lcov > coverage.lcov && ./node_modules/.bin/codecov",
     "ww": "./node_modules/.bin/webpack --config ./tests/webpack.config.js",
     "build": "rm -rf dist; node_modules/.bin/babel --plugins \"transform-runtime\" ./src --out-dir ./dist",
     "build-config": "node src/build_config.js",
@@ -40,6 +40,7 @@
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.6.1",
+    "codecov": "^3.0.0",
     "coveralls": "^3.0.0",
     "css-loader": "^0.23.1",
     "extract-text-webpack-plugin": "^2.0.0-rc.3",
