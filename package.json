@@ -1,8 +1,8 @@
 {
-  "name": "frontend-assets-manager",
+  "name": "fam",
   "version": "1.0.0",
-  "description": "Frontend assets management done right",
-  "main": "./src/index.js",
+  "description": "Frontend assets management",
+  "main": "./dist/index.js",
   "author": "Rafael Rozon",
   "license": "MIT",
   "scripts": {
@@ -13,12 +13,16 @@
     "cli": "node src/cli.js -c src/assets.json"
   },
   "bin": {
-    "fam": "./src/cli.js",
-    "fam-build-config": "./src/build_config.js"
+    "fam": "./dist/cli.js",
+    "fam-build-config": "./dist/build_config.js"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/rafaelrozon/frontend-assets-manager"
+  },
+  "bugs": {
+      "url": "https://github.com/rafaelrozon/frontend-assets-manager/issues",
+      "email": "rafaelrozon.developer@gmail.com"
   },
   "keywords": [
     "frontend",
