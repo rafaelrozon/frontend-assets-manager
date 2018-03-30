@@ -1,5 +1,7 @@
 #  F.A.M - Frontend Assets Manager
 
+[![Coverage Status](https://coveralls.io/repos/github/rafaelrozon/frontend-assets-manager/badge.svg?branch=master)](https://coveralls.io/github/rafaelrozon/frontend-assets-manager?branch=master)
+
 This library can be used as a Webpack plugin to generate a manifest file of Javascript and CSS files and/or a tool to inject script and link tags in other files (html, template files, etc).
 
 
