@@ -6,37 +6,37 @@ This library can be used as a Webpack plugin to generate a manifest file of Java
 ##  Config file
 
     {
-	  "defaults": {
-	    "js": {
-	      "regex": "js",
-	      "prepend": ""
-	    },
-	    "css": {
-	      "regex": "css",
-	      "prepend": ""
-	    },
-	    "prettyPrint": true,
-	    "pathFromRoot": "./assets.json"
-	  },
-	  "config": {
-	    "sample": {
-	      "dest": [],
-	      "prepend": "",
-	      "assets": {
-	        "js": {
-	          "src": [],
-	          "regex": "",
-	          "prepend": ""
-	        },
-	        "css": {
-	          "src": [],
-	          "regex": "",
-	          "prepend": ""
-	        }
-	      }
-	    }
-	  }
-	}
+      "defaults": {
+        "js": {
+          "regex": "js",
+          "prepend": ""
+        },
+        "css": {
+          "regex": "css",
+          "prepend": ""
+        },
+        "prettyPrint": true,
+        "pathFromRoot": "./assets.json"
+      },
+      "config": {
+        "sample": {
+          "dest": [],
+          "prepend": "",
+          "assets": {
+            "js": {
+              "src": [],
+              "regex": "",
+              "prepend": ""
+            },
+            "css": {
+              "src": [],
+              "regex": "",
+              "prepend": ""
+            }
+          }
+        }
+      }
+    }
 
 In general, values specified closer to the leaf nodes of the json tree overwrite values higher in the tree. For example, a regex field specified under `sample.js.regex` will overwrite any other regex field higher in the tree. This applies to regex and prepend fields.
 
@@ -74,15 +74,15 @@ In the files that will receive the injected script and link tags, add html comme
 
     // file: app.html
     <head>
-	    //...
-	    <!-- app:css -->
+        //...
+        <!-- app:css -->
         <!-- endinject -->
-	</head>
-	<body>
-		//...
-		<!-- app:js -->
-	    <!-- endinject -->
-	</body>
+    </head>
+    <body>
+        //...
+        <!-- app:js -->
+        <!-- endinject -->
+    </body>
 
 What is important here is:
 -  that `app:css` and `app:js` are defined as a regex in your config file. They could be the defaults applied to all pages or specific regex for app.html, for example.
@@ -97,11 +97,11 @@ What is important here is:
 
 Options:
 
-	-c, --config [value]  Path to the config file (defaults to "./assets.json")
+    -c, --config [value]  Path to the config file (defaults to "./assets.json")
 
-	-h, --help Output usage information
+    -h, --help Output usage information
 
-	-v, --version Output the version number
+    -v, --version Output the version number
 
 Reads the config file and inject assets into views.
 
@@ -120,12 +120,12 @@ Creates a new config file with defaults in the current directory.
 2 - Add to the plugins key of Webpack config
 
 
-	plugins: [
-		new FAMPlugin({
-			config: "./src/assets.json"
-		}),
-		//...
-	],
+    plugins: [
+        new FAMPlugin({
+            config: "./src/assets.json"
+        }),
+        //...
+    ],
 If you don't pass the object with  the config key, it'll assume you have an assets.json file in the root or your project.
 
 #### TODO:
