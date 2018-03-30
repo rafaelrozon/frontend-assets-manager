@@ -6,7 +6,7 @@
   "author": "Rafael Rozon",
   "license": "MIT",
   "scripts": {
-    "test": "./node_modules/.bin/nyc --reporter=lcov ./node_modules/.bin/tape tests/index.test.js --watch",
+    "test": "./node_modules/.bin/nyc --reporter=lcov ./node_modules/.bin/tape tests/index.test.js | coveralls",
     "ww": "./node_modules/.bin/webpack --config ./tests/webpack.config.js",
     "build": "rm -rf dist; node_modules/.bin/babel --plugins \"transform-runtime\" ./src --out-dir ./dist",
     "build-config": "node src/build_config.js",
@@ -21,8 +21,8 @@
     "url": "https://github.com/rafaelrozon/frontend-assets-manager"
   },
   "bugs": {
-      "url": "https://github.com/rafaelrozon/frontend-assets-manager/issues",
-      "email": "rafaelrozon.developer@gmail.com"
+    "url": "https://github.com/rafaelrozon/frontend-assets-manager/issues",
+    "email": "rafaelrozon.developer@gmail.com"
   },
   "keywords": [
     "frontend",
@@ -39,6 +39,7 @@
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.6.1",
+    "coveralls": "^3.0.0",
     "css-loader": "^0.23.1",
     "extract-text-webpack-plugin": "^2.0.0-rc.3",
     "nyc": "^11.4.1",
