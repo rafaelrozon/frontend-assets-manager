@@ -22,24 +22,23 @@ const getCliOptions = () => {
     return args.parse(process.argv);
 };
 
-const handlePageAssets = (configSet, cc) => {
-    handleAsset(configSet, constants.JS, cc);
-    handleAsset(configSet, constants.CSS, cc);
-};
-
 const handleAsset = (configSet, type, cc) => {
-    console.log('handleAsset', configSet, type);
+
+    // get js or css source files
     const sourcePaths = cc.getAssetSrc(configSet, type);
-    console.log('sourcePaths ', sourcePaths);
 
     if (sourcePaths && !R.isEmpty(sourcePaths)) {
 
+        // get regex
         const regex = cc.getRegexForAsset(configSet, type);
 
+        // build asset string
         const replacement = utils.buildAssetFilesString(sourcePaths, type);
 
+        // get file to inject the asset
         const targetPath = cc.getConfigSetTarget(configSet);
 
+        // inject the asset in the target
         utils.injectAsset(regex, replacement, targetPath);
     }
 };
@@ -47,19 +46,23 @@ const handleAsset = (configSet, type, cc) => {
 const run = () => {
 
     try {
-        utils.logInfo('Injecting assets...');
 
         const userInput = getCliOptions();
 
-        const config = utils.getConfigFile(userInput.config, constants.DEFAULT_CONFIG_FILENAME);
+        utils.logInfo('Injecting assets...');
 
-        utils.validateConfig(config);
+        const { config: configFile } = userInput;
+
+        const config = utils.getConfigFile(configFile);
 
         const cc = new ConfigClass(config);
 
         const consfigSets = R.keys(cc.getConfig());
 
-        consfigSets.forEach(configSet => handlePageAssets(configSet, cc));
+        consfigSets.forEach(configSet => {
+            handleAsset(configSet, constants.JS, cc);
+            handleAsset(configSet, constants.CSS, cc);
+        });
 
         utils.logInfo('Done!');
     } catch (error) {

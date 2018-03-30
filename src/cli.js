@@ -47,9 +47,10 @@ const handleAsset = (configSet, type, cc) => {
 const run = () => {
 
     try {
-        utils.logInfo('Injecting assets...');
 
         const userInput = getCliOptions();
+
+        utils.logInfo('Injecting assets...');
 
         const { config: configFile } = userInput;
 

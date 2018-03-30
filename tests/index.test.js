@@ -106,14 +106,26 @@ test("getFileType: css", t => {
 
 test("getConfigFile: it returns the content of the file", t => {
     const expected = {
-        test: 123
+        defaults: {
+            js: {
+                regex: "js",
+                prepend: ""
+            },
+            css: {
+                regex: "css",
+                prepend: ""
+            },
+            prettyPrint: true,
+            pathFromRoot: "./assets.json"
+        },
+        config: {}
     };
     const result = utils.getConfigFile("./tests/assets_base.json");
     t.deepEquals(expected, result);
     t.end();
 });
 
-test('getConfigFile: uses default file', (t) => {
+test("getConfigFile: uses default file", t => {
     t.plan(2);
 
     t.test("getConfigFile main test", t => {
@@ -130,9 +142,7 @@ test('getConfigFile: uses default file', (t) => {
         fs.unlinkSync(path.resolve(__dirname, "../nonexistent.json"));
         t.end();
     });
-
-})
-
+});
 
 test("validateConfig: it throws an error if config is undefined", t => {
     t.throws(() => {
@@ -167,8 +177,8 @@ test("getLinkTag: returns a valid link tag", t => {
 test("getRegexForReplace: returns a custom regex", t => {
     const result = utils.getRegexForReplace("myregex");
     const expected = `<!-- myregex -->${
-    constants.INJECT_REGEX
-  }<!-- endinject -->`;
+        constants.INJECT_REGEX
+    }<!-- endinject -->`;
     t.equal(result, expected);
     t.end();
 });
@@ -184,7 +194,10 @@ test("injectAsset: inject a replacement inside a regex in a specified path", fun
     t.plan(3);
 
     t.test("preparing file for injection", function(t) {
-        fs.copyFileSync(baseTemplate, path.resolve(__dirname, "./template.html"));
+        fs.copyFileSync(
+            baseTemplate,
+            path.resolve(__dirname, "./template.html")
+        );
         t.end();
     });
 
@@ -192,7 +205,10 @@ test("injectAsset: inject a replacement inside a regex in a specified path", fun
         const regex = "myjs";
         const replacement = "myfile.js";
         const targetPath = path.resolve(__dirname, "template.html");
-        const expectedInjectedContent = utils.getReplacement(replacement, regex);
+        const expectedInjectedContent = utils.getReplacement(
+            replacement,
+            regex
+        );
 
         utils.injectAsset(regex, replacement, [targetPath]);
 
@@ -422,15 +438,15 @@ test("setConfigSetAssets: a new config set is created for a js file", t => {
     const set = "myApp2";
     const filename = "myfile2.js";
     cpy.config[set] = {
-        [constants.KEYS.WEBPACKENTRY]: set,
-        [constants.KEYS.TARGET]: [],
+        [constants.KEYS.ENTRY]: set,
+        [constants.KEYS.DEST]: [],
         [constants.KEYS.ASSETS]: {
             [constants.KEYS.JS]: {
-                [constants.KEYS.PATH]: [filename],
+                [constants.KEYS.SRC]: [filename],
                 [constants.KEYS.REGEX]: ""
             },
             [constants.KEYS.CSS]: {
-                [constants.KEYS.PATH]: [],
+                [constants.KEYS.SRC]: [],
                 [constants.KEYS.REGEX]: ""
             }
         }
@@ -454,19 +470,18 @@ test("setConfigSetAssets: update to existing config set", t => {
     const copy = R.clone(configMock);
     const c = new ConfigClass(copy);
     const filename = "myfile2.js";
-    // console.log('>>>> before', JSON.stringify(copy, null, '  '));
+
     copy.config.myApp.assets.js.src = [filename];
-    // console.log('>>>>', JSON.stringify(copy, null, '  '));
+
     const expectedValue = copy.config;
     const result = c.setConfigSetAssets("myApp", filename);
-    // console.log('>>>> result', JSON.stringify(copy, null, '  '));
+
     t.deepEquals(result, expectedValue);
     t.end();
 });
 
 test("getContents", t => {
     const copy = R.clone(configMock);
-
     const c = new ConfigClass(copy);
     const expectedValue = copy;
     const result = c.getContents("myApp");
@@ -476,7 +491,6 @@ test("getContents", t => {
 
 test("getPathFromRoot", t => {
     const copy = R.clone(configMock);
-
     const c = new ConfigClass(copy);
     const expectedValue = copy.defaults.pathFromRoot;
     const result = c.getPathFromRoot("myApp");
@@ -486,19 +500,18 @@ test("getPathFromRoot", t => {
 
 test("getAssetConfigDefaults", t => {
     const copy = R.clone(configMock);
-
     const c = new ConfigClass(copy);
     const set = "myTestPage";
     const expectedValue = {
-        [constants.KEYS.WEBPACKENTRY]: set,
-        [constants.KEYS.TARGET]: [],
+        [constants.KEYS.ENTRY]: set,
+        [constants.KEYS.DEST]: [],
         [constants.KEYS.ASSETS]: {
             [constants.KEYS.JS]: {
-                [constants.KEYS.PATH]: [],
+                [constants.KEYS.SRC]: [],
                 [constants.KEYS.REGEX]: ""
             },
             [constants.KEYS.CSS]: {
-                [constants.KEYS.PATH]: [],
+                [constants.KEYS.SRC]: [],
                 [constants.KEYS.REGEX]: ""
             }
         }
@@ -513,15 +526,15 @@ test("createConfigSet", t => {
     const c = new ConfigClass(copy);
     const set = "myTestPage";
     copy.config[set] = {
-        [constants.KEYS.WEBPACKENTRY]: set,
-        [constants.KEYS.TARGET]: [],
+        [constants.KEYS.ENTRY]: set,
+        [constants.KEYS.DEST]: [],
         [constants.KEYS.ASSETS]: {
             [constants.KEYS.JS]: {
-                [constants.KEYS.PATH]: [],
+                [constants.KEYS.SRC]: [],
                 [constants.KEYS.REGEX]: ""
             },
             [constants.KEYS.CSS]: {
-                [constants.KEYS.PATH]: [],
+                [constants.KEYS.SRC]: [],
                 [constants.KEYS.REGEX]: ""
             }
         }
@@ -530,6 +543,7 @@ test("createConfigSet", t => {
     c.createConfigSet(set);
 
     const result = c.getConfig();
+
     t.deepEqual(result, copy.config);
     t.end();
 });
@@ -546,7 +560,6 @@ test("processSrcPaths for js with no prepend", t => {
 test("processSrcPaths for js with prepend", t => {
     const copy = R.clone(configMock);
     copy.config.myApp.assets.js.prepend = "/dist/";
-
     const c = new ConfigClass(copy);
     const expectedValue = [
         "/dist/myApp-7da312ce1c35525dc3e0.js",

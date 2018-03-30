@@ -4,24 +4,23 @@ const JSX = 'jsx';
 const DEFAULT_CONFIG_PATH = './assets.json';
 const INJECT_REGEX = '[\\S\\s]*?';
 const KEYS = {
-    META: 'defaults',
+    DEFAULTS: 'defaults',
     JS: 'js',
     REGEX: 'regex',
     CSS: 'css',
     PRETTY_PRINT: 'prettyPrint',
     PATH_FROM_ROOT: 'pathFromRoot',
-    PAGES: 'config',
+    CONFIG: 'config',
     NAME: 'name',
-    PATH: 'src',
+    SRC: 'src',
     ASSETS: 'assets',
-    WEBPACKENTRY: 'entry',
-    TARGET: 'dest',
+    ENTRY: 'entry',
+    DEST: 'dest',
     PREPEND: 'prepend',
-    CONFIG: 'config'
 };
 
 const DEFAULT_ASSETS = {
-    [KEYS.META]: {
+    [KEYS.DEFAULTS]: {
         [KEYS.JS]: {
             [KEYS.REGEX]: KEYS.JS,
             [KEYS.PREPEND]: ""

@@ -48,7 +48,7 @@ class Config {
      * @param {string} set
      */
     getConfigSetTarget(set) {
-        return this.getConfigSet(set)[K.TARGET];
+        return this.getConfigSet(set)[K.DEST];
     }
 
     getConsigSetAssets(set) {
@@ -79,7 +79,7 @@ class Config {
      */
     processSrcPaths(set, type) {
 
-        const sourceFiles = this.getConsigSetAssets(set)[type][K.PATH];
+        const sourceFiles = this.getConsigSetAssets(set)[type][K.SRC];
         const that = this;
         const files = sourceFiles.map(file => that.processFilename(file, type, set));
 
@@ -124,7 +124,7 @@ class Config {
             }
 
             // add the file name to the config set
-            this.config[entry][K.ASSETS][type][K.PATH] = [filename];
+            this.config[entry][K.ASSETS][type][K.SRC] = [filename];
 
         }
 
@@ -133,8 +133,8 @@ class Config {
 
     getContents() {
         return {
-            [constants.KEYS.META]: this.defaults,
-            [constants.KEYS.PAGES]: this.config
+            [constants.KEYS.DEFAULTS]: this.defaults,
+            [constants.KEYS.CONFIG]: this.config
         };
     }
 
@@ -163,15 +163,15 @@ class Config {
 
     getAssetConfigDefaults(set) {
         return {
-            [K.WEBPACKENTRY]: set,
-            [K.TARGET]: [],
+            [K.ENTRY]: set,
+            [K.DEST]: [],
             [K.ASSETS]: {
                 [K.JS]: {
-                    [K.PATH]: [],
+                    [K.SRC]: [],
                     [K.REGEX]: "",
                 },
                 [K.CSS]: {
-                    [K.PATH]: [],
+                    [K.SRC]: [],
                     [K.REGEX]: ''
                 }
             }

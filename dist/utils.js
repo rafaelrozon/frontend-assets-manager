@@ -6,12 +6,12 @@ var _stringify2 = _interopRequireDefault(_stringify);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const constants = require('./constants');
 const replace = require("replace");
 const path = require('path');
 const R = require('ramda');
 const chalk = require('chalk');
 const fs = require('fs');
+const constants = require('./constants');
 
 const isJS = type => {
     return type === constants.JS || type === constants.JSX;
@@ -21,6 +21,7 @@ const isCSS = type => {
     return type === constants.CSS;
 };
 
+/* istanbul ignore next */
 const outputConfig = config => {
     if (config.defaults.prettyPrint) {
         return (0, _stringify2.default)(config, null, '  ');
@@ -39,10 +40,25 @@ const isCssFile = filename => {
 };
 
 const getConfigFile = (configFilePath = constants.DEFAULT_CONFIG_PATH) => {
-    const config = fs.readFileSync(configFilePath, { encoding: 'utf8' });
-    return JSON.parse(config);
+
+    if (!fs.existsSync(configFilePath)) {
+
+        fs.writeFileSync(configFilePath, outputConfig(constants.DEFAULT_ASSETS));
+
+        return constants.DEFAULT_ASSETS;
+    } else {
+
+        const config = fs.readFileSync(configFilePath, { encoding: 'utf8' });
+
+        const data = JSON.parse(config);
+
+        validateConfig(data);
+
+        return data;
+    }
 };
 
+/* istanbul ignore next */
 const writeConfigFile = (config, path) => {
     fs.writeFileSync(path, outputConfig(config));
 };
@@ -53,30 +69,32 @@ const validateConfig = config => {
     }
 };
 
+/* istanbul ignore next */
 const logError = (msg, error) => {
     console.error(chalk.red(msg, error));
 };
 
+/* istanbul ignore next */
 const logInfo = msg => {
     console.log(chalk.blue(msg));
 };
 
-const formatTag = tag => `\t${tag}\n\t`;
+const formatTag = tag => `    ${tag}\n    `;
 
 const getScriptTag = filename => `<script src="${filename}"></script>`;
 
 const getLinkTag = filename => `<link rel="stylesheet" href="${filename}">`;
 
-const getReplacement = (replacement, regex) => `<!-- /${regex}/ -->${replacement}<!-- /end-of-${regex}-inject/ -->`;
+const getReplacement = (replacement, regex) => `<!-- ${regex} -->${replacement}<!-- endinject -->`;
 
-const getRegexForReplace = customRegex => `<!-- /${customRegex}/ -->[\\s\\S]*<!-- /end-of-${customRegex}-inject/ -->`;
+// needs to double escape
+const getRegexForReplace = customRegex => `<!-- ${customRegex} -->${constants.INJECT_REGEX}<!-- endinject -->`;
 
 const injectAsset = (regex, replacement, targetPath) => {
-    console.log('injectAsset ', regex, replacement, targetPath);
+
     const finalRegex = getRegexForReplace(regex);
-    const finalReplacement = getReplacement(replacement, regex);
-    console.log('>> final ', finalRegex);
-    console.log('>> final ', finalReplacement);
+    const finalReplacement = `${getReplacement(replacement, regex)}`;
+
     replace({
         regex: finalRegex,
         replacement: finalReplacement,
@@ -88,14 +106,14 @@ const injectAsset = (regex, replacement, targetPath) => {
 
 const buildAssetFilesString = (assetFiles, type) => {
 
-    let content = '\n\t';
+    let content = '\n    ';
     const tagFn = isJS(type) ? getScriptTag : getLinkTag;
 
     assetFiles.forEach(asset => {
         content += formatTag(tagFn(asset));
     });
 
-    return content;
+    return `    ${content}`;
 };
 
 const getFileType = filename => {

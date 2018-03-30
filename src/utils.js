@@ -1,9 +1,9 @@
-const constants = require('./constants');
 const replace = require("replace");
 const path = require('path');
 const R = require('ramda');
 const chalk = require('chalk');
 const fs = require('fs');
+const constants = require('./constants');
 
 const isJS = (type) => {
     return type === constants.JS || type === constants.JSX;

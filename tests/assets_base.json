@@ -1,3 +1,15 @@
 {
-    "test": 123
+  "defaults": {
+    "js": {
+      "regex": "js",
+      "prepend": ""
+    },
+    "css": {
+      "regex": "css",
+      "prepend": ""
+    },
+    "prettyPrint": true,
+    "pathFromRoot": "./assets.json"
+  },
+  "config": {}
 }

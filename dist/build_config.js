@@ -11,27 +11,31 @@ const buildAssetsFile = () => {
     const K = constants.KEYS;
 
     const defaultConfig = {
-        [K.META]: {
+        [K.DEFAULTS]: {
             [K.JS]: {
-                [K.REGEX]: "js"
+                [K.REGEX]: "js",
+                [K.PREPEND]: ""
             },
             [K.CSS]: {
-                [K.REGEX]: "css"
+                [K.REGEX]: "css",
+                [K.PREPEND]: ""
             },
             [K.PRETTY_PRINT]: true,
             [K.PATH_FROM_ROOT]: "./assets.json"
         },
-        [K.PAGES]: {
+        [K.CONFIG]: {
             "sample": {
-                [K.PATH]: [],
+                [K.DEST]: [],
                 [K.ASSETS]: {
                     [K.JS]: {
-                        [K.PATH]: [],
-                        [K.REGEX]: "myjs"
+                        [K.SRC]: [],
+                        [K.REGEX]: "",
+                        [K.PREPEND]: ""
                     },
                     [K.CSS]: {
-                        [K.PATH]: [],
-                        [K.REGEX]: "mycss"
+                        [K.SRC]: [],
+                        [K.REGEX]: "",
+                        [K.PREPEND]: ""
                     }
                 }
             }

@@ -1,7 +1,6 @@
-var FAMPlugin = require('./../src/plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const path = require('path');
-
+const FAMPlugin = require('./../src/plugin');
 
 module.exports = {
     entry: {
