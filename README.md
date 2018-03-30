@@ -85,20 +85,17 @@ In the files that will receive the injected script and link tags, add html comme
 	</body>
 
 What is important here is:
-1-  that `app:css` and `app:js` are defined as a regex in your config file. They could be the defaults applied to all pages or specific regex for app.html, for example.
-2 - Follow this pattern `<!-- myRegex --><!-- endinject -->`.  Replace `myRegex` with the proper regex from the config file. Everything else should  match the pattern. Otherwise the place to inject the tags won't be found.
+-  that `app:css` and `app:js` are defined as a regex in your config file. They could be the defaults applied to all pages or specific regex for app.html, for example.
+
+- Follow this pattern `<!-- myRegex --><!-- endinject -->`.  Replace `myRegex` with the proper regex from the config file. Everything else should  match the pattern. Otherwise the place to inject the tags won't be found.
 
 
 
 ##  CLI
 
-    Usage: fam  [options] [command]
+    $ fam  [options]
 
-	Commands:
-
-	help  Display help
-
-	Options:
+Options:
 
 	-c, --config [value]  Path to the config file (defaults to "./assets.json")
 
