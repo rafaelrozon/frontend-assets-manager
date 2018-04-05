@@ -52,7 +52,6 @@ class Config {
     }
 
     getConsigSetAssets(set) {
-        console.log('getConsigSetAssets', set);
         return this.getConfigSet(set)[K.ASSETS];
     }
 
