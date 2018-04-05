@@ -1,5 +1,5 @@
 {
-  "name": "fam",
+  "name": "frontend-assets-manager",
   "version": "1.0.0",
   "description": "Frontend assets management",
   "main": "./dist/index.js",
