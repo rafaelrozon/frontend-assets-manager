@@ -118,7 +118,7 @@ Creates a new config file with defaults in the current directory.
 
 1- Import the plugin
 
-    const FAMPlugin = require('fam');
+    const FAMPlugin = require('frontend-assets-manager');
 
 2 - Add to the plugins key of Webpack config
 
