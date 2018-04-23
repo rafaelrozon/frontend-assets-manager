@@ -1,6 +1,6 @@
 {
   "name": "frontend-assets-manager",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Frontend assets management",
   "main": "./dist/index.js",
   "author": "Rafael Rozon",
